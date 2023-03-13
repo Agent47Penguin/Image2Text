@@ -22,8 +22,8 @@ After using several various image to text tools on the internet, I got tired of 
 1) Clone the repository to your local machine.
 2) Install the required dependencies (PyQt5, PIL, pytesseract).
 3) Run the main script main.py to start the application.
-4) Select an image file to convert using the "Open Source Image" button.
-5) Click the "Extract" button to convert the image to text using the tesseract OCR engine.
+4) Select an image file to convert using the "Open Image" button.
+5) Click the "Convert" button to convert the image to text using the tesseract OCR engine.
 6) The extracted text will be displayed in the text box.
 
 ## Screenshots
