@@ -1,8 +1,10 @@
+import os
 import sys
 from PyQt5.QtWidgets import QApplication, QMainWindow, QLabel, QTextEdit, QPushButton, QFileDialog, QVBoxLayout, QHBoxLayout, QWidget
 from PyQt5.QtGui import QPixmap
 from PyQt5.QtCore import Qt
 from PIL import Image
+import pytesseract
 
 # MainWindow class that sets up the GUI
 
@@ -25,6 +27,7 @@ class MainWindow(QMainWindow):
         self.open_button = QPushButton("Open Image", self)
         self.open_button.clicked.connect(self.open_image)
         self.convert_button = QPushButton("Convert", self)
+        self.convert_button.clicked.connect(self.convert)
 
         # Create image label and text box
         self.label_image = QLabel(self)
@@ -60,6 +63,10 @@ class MainWindow(QMainWindow):
         widget.setLayout(layout_main)
         self.setCentralWidget(widget)
 
+        # Set the path to Tesseract
+        pytesseract.pytesseract.tesseract_cmd = os.path.join(
+            os.getcwd(), 'Tesseract-OCR/tesseract')
+
     # Method to open image file
     def open_image(self):
         # Open a file dialog to select an image
@@ -90,6 +97,21 @@ class MainWindow(QMainWindow):
             # If a file was previously selected, set it as the current file
             if self.previous != "":
                 self.file = self.previous
+
+    def convert(self):
+        # If no file has been selected
+        if self.file == "":
+            return
+        try:
+            # Use pytesseract to extract text from the image
+            result = pytesseract.image_to_string(self.image)
+        except Exception as e:
+            # Print the error message if there is an exception
+            print("Error:", e)
+            return
+
+        # Set the extracted text on the text box
+        self.text_box.setText(result)
 
 
 # Create a QApplication
